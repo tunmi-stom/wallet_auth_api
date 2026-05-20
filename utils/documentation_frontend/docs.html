@@ -628,14 +628,25 @@ async function call(btnId, resId, outId, url, opts) {
   out.innerHTML = '<span style="color:var(--text3)">Waiting for response…</span>';
   try {
     var r = await fetch(url, opts);
-    var data = await r.json();
+    const text = await r.text();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { raw: text || "No response body" };
+    }
     var statusClass = r.ok ? 'ok' : (r.status === 422 ? 'warn' : 'err');
     out.innerHTML = '<span class="badge-inline ' + statusClass + '" style="font-size:11px;padding:2px 8px;border-radius:4px;margin-bottom:8px;display:inline-block">' + r.status + (r.ok ? ' OK' : '') + '</span>\n\n' + fmt(data);
   } catch (e) {
-    out.innerHTML = '<span style="color:var(--red-text)">Network error — server may be sleeping (Render cold start) or CORS is blocking.\n\n' + e.message + '</span>';
+    out.innerHTML =
+  '<span class="badge-inline ' + statusClass +
+  '" style="font-size:11px;padding:2px 8px;border-radius:4px;margin-bottom:8px;display:inline-block">' +
+  r.status + (r.ok ? ' OK' : '') +
+  '</span>\n\n' + fmt(data);
   }
   btn.disabled = false;
-  btn.textContent = '→ Send';
+  btn.textContent = 'Send';
 }
 
 function tryHome() {
