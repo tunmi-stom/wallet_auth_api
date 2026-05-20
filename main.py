@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from routes import auth, docs
 from core.config import settings
 from database.db_config import Base, engine
@@ -7,6 +8,8 @@ from database.db_config import Base, engine
 app = FastAPI(
     title=settings.PROJECT_NAME,
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,
