@@ -7,9 +7,11 @@ from database.db_config import Base, engine
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
+    docs_url=None,  # Disable default Swagger UI
+    redoc_url=None   # Disable default ReDoc UI
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="utils\\documentation_frontend\\static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,7 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(auth.router)
-# app.include_router(docs.router)
+app.include_router(docs.router)
 
 Base.metadata.create_all(bind=engine)
 
