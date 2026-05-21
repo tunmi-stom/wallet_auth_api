@@ -11,7 +11,7 @@ app = FastAPI(
     redoc_url=None   # Disable default ReDoc UI
 )
 
-app.mount("/static", StaticFiles(directory="utils\\documentation_frontend\\static"), name="static")
+app.mount("/static", StaticFiles(directory="utils/documentation_frontend/static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,

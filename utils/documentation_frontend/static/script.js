@@ -1,4 +1,4 @@
-const BASE = 'https://wallet-auth-api.onrender.com';
+const BASE = 'http://localhost:8000';
 
 function scrollTo(id) {
   document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
